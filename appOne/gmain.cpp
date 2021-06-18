@@ -43,59 +43,44 @@ void gmain() {
 }
 */
 
-/*#include"libOne.h"
-void gmain() {
-	window(1920, 1080, full);
-	int imgIdx = loadImage("assets/witch.png");
-	float px;
-	float py;
-	float vx;
-	float vy;
-	float initVy;
-	float gravity;
-	int jumpFlag;
-	float limmitPy;
-	px = 400;
-	py = 1080 - 500;
-	limmitPy = py;
-	vx = 2;
-	initVy = -50;
-	gravity = 2;
-	jumpFlag = 0;
-	while (notQuit) {
-		px = vx;
-		if(jumpFlag  == 0) {
-			if (isTrigger(KEY_SPACE)) {
-				vy = initVy;
-				jumpFlag = 1;
-			}
-		}
-		if (jumpFlag == 1) {
-			py += vy;
-			vy = gravity;
-			if (py > limmitPy) {
-				py = limmitPy;
-				jumpFlag = 0;
-			}
-		}
-		clear(70, 0, 70);
-		image(imgIdx, px, py);
-	}
-}
-*/
-
 
 #include"libone.h"
 #include"obstacle.h"
-
+#include"player.h"
+#include"rect_area.h"
+int collision(struct PLAYER* p, struct OBSTACLE* o) {
+	float pLeft = p->p.x + p->r.dx;
+	float pRight = pLeft + p->r.w;
+	float pTop = p->p.y + p->r.dy;
+	float pBottom = pTop + p->r.h;
+	float oLeft = o->p.x + o->r.dx;
+	float oRight = oLeft + p->r.w;
+	float oTop = o->p.y + o->r.dy;
+	float oBottom = oTop + o->r.h;
+	if (pRight < oLeft || oRight < pLeft ||
+		pBottom < oTop || oBottom < pTop) {
+		return 0;
+	}
+		return 1;
+}
 void gmain() {
 	window(1920, 1080, full);
 	struct OBSTACLE obstacle;
+	struct PLAYER player;
 	load(&obstacle);
+	load(&player);
 	init(&obstacle);
+	init(&player);
 	while (notQuit) {
 		move(&obstacle);
-		clear(70, 0, 70);
+		move(&player);
+		if(collision(&player,&obstacle))
+			clear(250, 0, 0);
+		else
+		    clear(70, 0, 70);
 		draw(&obstacle);
+		draw(&player);
+		drawRectArea(&obstacle.p, &obstacle.r);
+		drawRectArea(&player.p, &player.r);
 	}
 }

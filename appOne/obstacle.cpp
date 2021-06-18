@@ -6,16 +6,20 @@ void load(static OBSTACLE* o) {
 	o->imgH = 300;
 }
 void init(static OBSTACLE* o) {
-	o->px = width;
-	o->py = height - o->imgH;
+	o->p.x = width;
+	o->p.y = height - o->imgH;
 	o->vx = -10;
+	o->r.dx = 30;
+	o->r.w = 50;
+	o->r.w = o->imgW - o->r.dx * 2;
+	o->r.h = o->imgH - o->r.dy;
 }
 void move(static OBSTACLE* o) {
-	o->px += o->vx;
-	if (o->px < -o->imgW) {
-		o->px = width;
+	o->p.x += o->vx;
+	if (o->p.x < -o->imgW) {
+		o->p.x = width;
 	}
 }
 void draw(static OBSTACLE* o) {
-	image(o->imgIdx, o->px, o->py);
+	image(o->imgIdx, o->p.x, o->p.y);
 }

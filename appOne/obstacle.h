@@ -1,12 +1,13 @@
 #pragma once
+#include"float2.h"
+#include"rect_area.h"
 struct OBSTACLE {
 	int imgIdx = 0;
-	int imgw = 0;
 	int imgW = 0;
 	int imgH = 0;
-	float px = 0;
-	float py = 0;
+	struct FLOAT2 p;
 	float vx = 0;
+	struct RECT_AREA r;
 };
 void load(static OBSTACLE * o) ;
 void init(static OBSTACLE * o) ;
